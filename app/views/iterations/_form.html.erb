@@ -1,0 +1,44 @@
+<%= form_with(model: iteration) do |form| %>
+  <% if iteration.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(iteration.errors.count, "error") %> prohibited this iteration from being saved:</h2>
+
+      <ul>
+      <% iteration.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :code, class: 'form-label' %>
+      <%= form.text_area :code, class: 'form-control' %>
+    </div>
+
+  <div class="mb-3">
+    <%= form.label :exercise_id, class: 'form-label' %>
+      <%= form.text_field :exercise_id, class: 'form-control' %>
+    </div>
+
+  <div class="mb-3">
+    <%= form.label :user_id, class: 'form-label' %>
+      <%= form.text_field :user_id, class: 'form-control' %>
+    </div>
+
+  <div class="mb-3">
+    <% if iteration.persisted? %>
+      <div class="float-end">
+        <%= link_to 'Destroy', iteration, method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+
+    <%= form.submit class: 'btn btn-primary' %>
+
+    <% if iteration.persisted? %>
+      <%= link_to "Cancel", iteration, class: "btn btn-link" %>
+    <% else %>
+      <%= link_to "Cancel", iterations_path, class: "btn btn-link" %>
+    <% end %>
+  </div>
+<% end %>

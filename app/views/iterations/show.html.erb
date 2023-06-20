@@ -1,0 +1,18 @@
+<div class="page-header">
+  <%= link_to iterations_path, class: 'btn btn-default' do %>
+    All Iterations
+  <% end %>
+  <%= link_to edit_iteration_path(@iteration), class: 'btn btn-primary' do %>
+    Edit
+  <% end %>
+  <h1>Show iteration</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Code:</dt>
+  <dd><%= @iteration.code %></dd>
+  <dt>Exercise:</dt>
+  <dd><%= @iteration.exercise %></dd>
+  <dt>User:</dt>
+  <dd><%= @iteration.user %></dd>
+</dl>
