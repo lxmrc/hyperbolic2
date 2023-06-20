@@ -1,5 +1,6 @@
 class IterationsController < ApplicationController
   before_action :set_iteration, only: %i[ show edit update destroy ]
+  before_action :set_exercise, only: %i[ show edit update destroy ]
 
   # GET /iterations
   def index
@@ -46,13 +47,16 @@ class IterationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_iteration
-      @iteration = Iteration.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def iteration_params
-      params.require(:iteration).permit(:code, :exercise_id, :user_id)
-    end
+  def set_iteration
+    @iteration = Iteration.find(params[:id])
+  end
+
+  def set_exercise
+    @exercise = @iteration.exercise
+  end
+
+  def iteration_params
+    params.require(:iteration).permit(:code, :exercise_id, :user_id)
+  end
 end
