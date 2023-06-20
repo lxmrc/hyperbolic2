@@ -11,14 +11,16 @@
 </div>
 
 <% @exercises.each do |exercise| %>
-  <div class="card my-3">
-    <div class="card-header">
-      <%= exercise.name %>
+  <%= link_to exercise, style: "text-decoration: none;" do %>
+    <div class="card my-3">
+      <div class="card-header">
+        <%= exercise.name %>
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+          <%= exercise.description.truncate_words(30, omission: '...')%>
+        </p>
+      </div>
     </div>
-    <div class="card-body">
-      <p class="card-text">
-        <%= exercise.description.truncate_words(30, omission: '...')%>
-      </p>
-    </div>
-  </div>
+  <% end %>
 <% end %>
