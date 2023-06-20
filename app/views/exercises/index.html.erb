@@ -1,6 +1,3 @@
-
-
-
 <div class="row">
   <div class="col-sm-6">
     <h1>Exercises</h1>
@@ -8,38 +5,20 @@
 
   <div class="col-sm-6 text-end">
   <%= link_to new_exercise_path, class: 'btn btn-primary' do %>
-    Add New Exercise
+    <i class="fas fa-plus"></i> Create Exercise
   <% end %>
   </div>
 </div>
 
-<div class="table-responsive">
-  <table class="table table-striped table-bordered table-hover">
-    <thead>
-      <tr>
-    
-        <th>Name</th>
-    
-
-            <th>Description</th>
-            <th>Tests</th>
-            
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @exercises.each do |exercise| %>
-        <%= content_tag :tr, id: dom_id(exercise), class: dom_class(exercise) do %>
-          
-            <td><%= link_to exercise.name, exercise %></td>
-          
-
-                      <td><%= exercise.description %></td>
-                      <td><%= exercise.tests %></td>
-          
-          
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+<% @exercises.each do |exercise| %>
+  <div class="card my-3">
+    <div class="card-header">
+      <%= exercise.name %>
+    </div>
+    <div class="card-body">
+      <p class="card-text">
+        <%= exercise.description.truncate_words(30, omission: '...')%>
+      </p>
+    </div>
+  </div>
+<% end %>
