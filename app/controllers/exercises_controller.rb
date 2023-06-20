@@ -8,6 +8,7 @@ class ExercisesController < ApplicationController
 
   # GET /exercises/1
   def show
+    @iterations = @exercise.iterations
   end
 
   # GET /exercises/new
