@@ -1,37 +1,27 @@
 class IterationsController < ApplicationController
-  before_action :set_iteration, only: %i[ show edit update destroy ]
-  before_action :set_exercise, only: %i[ show edit update destroy ]
+  before_action :set_exercise
+  before_action :set_iteration, only: %i[show edit update destroy]
 
-  # GET /iterations
-  def index
-    @iterations = Iteration.all
-  end
-
-  # GET /iterations/1
   def show
   end
 
-  # GET /iterations/new
   def new
-    @iteration = Iteration.new
+    @iteration = current_user.iterations.build(exercise: @exercise)
   end
 
-  # GET /iterations/1/edit
   def edit
   end
 
-  # POST /iterations
   def create
-    @iteration = Iteration.new(iteration_params)
+    @iteration = current_user.iterations.build(iteration_params.merge(exercise: @exercise))
 
     if @iteration.save
-      redirect_to @iteration, notice: "Iteration was successfully created."
+      redirect_to exercise_iteration_path(@exercise, @iteration), notice: "Iteration was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /iterations/1
   def update
     if @iteration.update(iteration_params)
       redirect_to @iteration, notice: "Iteration was successfully updated."
@@ -40,7 +30,6 @@ class IterationsController < ApplicationController
     end
   end
 
-  # DELETE /iterations/1
   def destroy
     @iteration.destroy
     redirect_to iterations_url, notice: "Iteration was successfully destroyed.", status: :see_other
@@ -53,10 +42,10 @@ class IterationsController < ApplicationController
   end
 
   def set_exercise
-    @exercise = @iteration.exercise
+    @exercise = Exercise.find(params[:exercise_id])
   end
 
   def iteration_params
-    params.require(:iteration).permit(:code, :exercise_id, :user_id)
+    params.require(:iteration).permit(:code)
   end
 end

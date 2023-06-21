@@ -1,20 +1,23 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :iterations
-  resources :exercises
+  resources :exercises do
+    resources :iterations
+  end
+
   get '/privacy', to: 'home#privacy'
   get '/terms', to: 'home#terms'
-authenticate :user, lambda { |u| u.admin? } do
-  mount Sidekiq::Web => '/sidekiq'
 
-  namespace :madmin do
-    resources :impersonates do
-      post :impersonate, on: :member
-      post :stop_impersonating, on: :collection
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+
+    namespace :madmin do
+      resources :impersonates do
+        post :impersonate, on: :member
+        post :stop_impersonating, on: :collection
+      end
     end
   end
-end
 
   resources :notifications, only: [:index]
   resources :announcements, only: [:index]

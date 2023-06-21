@@ -1,4 +1,4 @@
-<%= form_with(model: iteration) do |form| %>
+<%= form_with(model: [exercise, iteration], url: exercise_iterations_path(exercise)) do |form| %>
   <% if iteration.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(iteration.errors.count, "error") %> prohibited this iteration from being saved:</h2>
@@ -17,16 +17,6 @@
     </div>
 
   <div class="mb-3">
-    <%= form.label :exercise_id, class: 'form-label' %>
-      <%= form.text_field :exercise_id, class: 'form-control' %>
-    </div>
-
-  <div class="mb-3">
-    <%= form.label :user_id, class: 'form-label' %>
-      <%= form.text_field :user_id, class: 'form-control' %>
-    </div>
-
-  <div class="mb-3">
     <% if iteration.persisted? %>
       <div class="float-end">
         <%= link_to 'Destroy', iteration, method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } %>
@@ -38,7 +28,7 @@
     <% if iteration.persisted? %>
       <%= link_to "Cancel", iteration, class: "btn btn-link" %>
     <% else %>
-      <%= link_to "Cancel", iterations_path, class: "btn btn-link" %>
+      <%= link_to "Cancel", exercise, class: "btn btn-link" %>
     <% end %>
   </div>
 <% end %>

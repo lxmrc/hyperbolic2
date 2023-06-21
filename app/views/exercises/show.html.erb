@@ -7,7 +7,7 @@
   Edit
 <% end %>
 
-<%= link_to new_iteration_path, class: 'btn btn-success float-end mx-1' do %>
+<%= link_to new_exercise_iteration_path(@exercise), class: 'btn btn-success float-end mx-1' do %>
   Attempt
 <% end %>
 
@@ -44,7 +44,7 @@
       <% @iterations.each_with_index do |iteration, index| %>
         <%= content_tag :tr, id: dom_id(iteration), class: dom_class(iteration) do %>
           <td><%= index + 1 %></td>
-          <td><%= link_to iteration.created_at.strftime("%d %B %Y at %-k:%M"), iteration %></td>
+          <td><%= link_to iteration.created_at.strftime("%d %B %Y at %-k:%M"), exercise_iteration_path(@exercise, iteration) %></td>
         <% end %>
       <% end %>
     </tbody>
