@@ -1,7 +1,13 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :containers
+  resources :containers do
+    member do
+      post :stop
+      post :start
+    end
+  end
+
   resources :exercises do
     resources :iterations
   end

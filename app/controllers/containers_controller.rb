@@ -1,5 +1,5 @@
 class ContainersController < ApplicationController
-  before_action :set_container, only: %i[show edit update destroy]
+  before_action :set_container, only: %i[start stop show edit update destroy]
 
   def index
     @containers = Container.all
@@ -16,10 +16,10 @@ class ContainersController < ApplicationController
   end
 
   def create
-    @container = Container.new(container_params)
+    @container = DockerApi.create
 
-    if @container.save
-      redirect_to @container, notice: "Container was successfully created."
+    if @container
+      redirect_to containers_path, notice: "Container was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -36,6 +36,16 @@ class ContainersController < ApplicationController
   def destroy
     @container.destroy
     redirect_to containers_url, notice: "Container was successfully destroyed.", status: :see_other
+  end
+
+  def start
+    @container.start
+    redirect_to containers_path
+  end
+
+  def stop
+    @container.stop
+    redirect_to containers_path
   end
 
   private
