@@ -42,7 +42,7 @@ class IterationsController < ApplicationController
   end
 
   def set_exercise
-    @exercise = Exercise.find(params[:exercise_id])
+    @exercise = Exercise.friendly.find(params[:exercise_id])
   end
 
   def iteration_params
