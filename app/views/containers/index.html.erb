@@ -15,6 +15,8 @@
     <thead>
       <tr>
         <th>Name</th>
+        <th>Exercise</th>
+        <th>User</th>
         <th>Docker ID</th>
         <th>Image</th>
         <th>Status</th>
@@ -25,6 +27,8 @@
       <% @containers.each do |container| %>
         <%= content_tag :tr, id: dom_id(container), class: dom_class(container) do %>
           <td><%= link_to container.name, container %></td>
+          <td><%= link_to(container.exercise.name, container.exercise) if container.exercise %></td>
+          <td><%= container.user.name %></td>
           <td><%= container.docker_id %></td>
           <td><%= container.image %></td>
           <td><%= container.status %></td>
@@ -38,7 +42,7 @@
                 Stop
               <% end %>
 
-              <%= link_to container, method: :delete, class: "btn btn-danger btn-sm" do %>
+              <%= button_to container, method: :delete, class: "btn btn-danger btn-sm" do %>
                 Remove
               <% end %>
             </div>

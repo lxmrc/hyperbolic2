@@ -1,4 +1,7 @@
 class Container < ApplicationRecord
+  belongs_to :user
+  belongs_to :exercise, optional: true
+
   validates_presence_of :docker_id
 
   after_create :update_name

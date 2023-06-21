@@ -6,6 +6,7 @@ class IterationsController < ApplicationController
   end
 
   def new
+    @container = DockerApi.create(exercise: @exercise, user: current_user)
     @iteration = current_user.iterations.build(exercise: @exercise)
   end
 

@@ -16,7 +16,7 @@ class ContainersController < ApplicationController
   end
 
   def create
-    @container = DockerApi.create
+    @container = DockerApi.create(user: current_user)
 
     if @container
       redirect_to containers_path, notice: "Container was successfully created."
