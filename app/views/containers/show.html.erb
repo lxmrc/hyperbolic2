@@ -1,0 +1,18 @@
+<div class="page-header">
+  <%= link_to containers_path, class: 'btn btn-default' do %>
+    All Containers
+  <% end %>
+  <%= link_to edit_container_path(@container), class: 'btn btn-primary' do %>
+    Edit
+  <% end %>
+  <h1>Show container</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Docker:</dt>
+  <dd><%= @container.docker_id %></dd>
+  <dt>Name:</dt>
+  <dd><%= @container.name %></dd>
+  <dt>Image:</dt>
+  <dd><%= @container.image %></dd>
+</dl>

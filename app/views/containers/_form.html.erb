@@ -1,0 +1,44 @@
+<%= form_with(model: container) do |form| %>
+  <% if container.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(container.errors.count, "error") %> prohibited this container from being saved:</h2>
+
+      <ul>
+      <% container.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :docker_id, class: 'form-label' %>
+      <%= form.text_field :docker_id, class: 'form-control' %>
+    </div>
+
+  <div class="mb-3">
+    <%= form.label :name, class: 'form-label' %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+
+  <div class="mb-3">
+    <%= form.label :image, class: 'form-label' %>
+      <%= form.text_field :image, class: 'form-control' %>
+    </div>
+
+  <div class="mb-3">
+    <% if container.persisted? %>
+      <div class="float-end">
+        <%= link_to 'Destroy', container, method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+
+    <%= form.submit class: 'btn btn-primary' %>
+
+    <% if container.persisted? %>
+      <%= link_to "Cancel", container, class: "btn btn-link" %>
+    <% else %>
+      <%= link_to "Cancel", containers_path, class: "btn btn-link" %>
+    <% end %>
+  </div>
+<% end %>
