@@ -1,6 +1,6 @@
 module DockerApi
   class << self
-    def create(exercise: nil, user:, image: "alpine", tty: true)
+    def create(exercise: nil, user:, image: "ghcr.io/lxmrc/minitest-hyperbolic:latest", tty: true)
       container = Docker::Container.create("Image" => image, "Tty" => tty)
       return false unless container.present?
 
