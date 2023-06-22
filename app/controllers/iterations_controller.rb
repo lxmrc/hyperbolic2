@@ -1,13 +1,20 @@
 class IterationsController < ApplicationController
+  skip_before_action :verify_authenticity_token, raise: false
   before_action :set_exercise
   before_action :set_iteration, only: %i[show edit update destroy]
+  before_action :set_container, only: :run
+  before_action :prepare_container, only: :new
 
   def show
   end
 
   def new
-    @container = DockerApi.create(exercise: @exercise, user: current_user)
     @iteration = current_user.iterations.build(exercise: @exercise)
+  end
+
+  def run
+    @container.store_file("/hyperbolic/exercise.rb", params[:code])
+    render plain: @container.run_tests
   end
 
   def edit
@@ -46,7 +53,17 @@ class IterationsController < ApplicationController
     @exercise = Exercise.friendly.find(params[:exercise_id])
   end
 
+  def set_container
+    @container = Container.find_by(docker_id: params[:container_id])
+  end
+
+  def prepare_container
+    @container = DockerApi.create(exercise: @exercise, user: current_user)
+    @container.store_file("/hyperbolic/test.rb", @exercise.tests)
+    @container.start
+  end
+
   def iteration_params
-    params.require(:iteration).permit(:code)
+    params.require(:iteration).permit(:code, :container_id)
   end
 end

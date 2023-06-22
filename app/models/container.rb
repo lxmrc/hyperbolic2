@@ -7,24 +7,31 @@ class Container < ApplicationRecord
   after_create :update_name
   before_destroy :remove_container
 
-  delegate :start, :stop, :info, to: :container
+  delegate :start,
+           :stop,
+           :info,
+           :store_file, to: :container
+
+  def run_tests
+    CGI.escape(@container.exec(["ruby", "/hyperbolic/test.rb", "--verbose"])[0][0].to_s)
+  end
 
   def container
     @container = Docker::Container.get(docker_id)
   end
 
   def status
-    info.dig("State", "Status")
+    info.dig('State', 'Status')
   end
 
   def running?
-    info.dig("State", "Running")
+    info.dig('State', 'Running')
   end
 
   private
 
   def update_name
-    update(name: info["Name"][1..-1])
+    update(name: info['Name'][1..-1])
   end
 
   def remove_container

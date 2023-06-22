@@ -1,4 +1,6 @@
-<%= form_with(model: [exercise, iteration], url: exercise_iterations_path(exercise)) do |form| %>
+<%= javascript_include_tag 'exercises' %>
+
+<%= form_with(model: [exercise, iteration], url: exercise_iterations_path(exercise), id: "exercise-form") do |form| %>
   <% if iteration.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(iteration.errors.count, "error") %> prohibited this iteration from being saved:</h2>
@@ -22,19 +24,24 @@
     </div>
   </div>
 
-  <div class="mb-3">
-    <% if iteration.persisted? %>
-      <div class="float-end">
-        <%= link_to 'Destroy', iteration, method: :delete, class: "text-danger", data: { confirm: 'Are you sure?' } %>
-      </div>
-    <% end %>
-
-    <%= form.submit class: 'btn btn-primary' %>
-
-    <% if iteration.persisted? %>
-      <%= link_to "Cancel", iteration, class: "btn btn-link" %>
-    <% else %>
-      <%= link_to "Cancel", exercise, class: "btn btn-link" %>
-    <% end %>
-  </div>
+  <%= form.hidden_field :container_id, id: "container_id", value: @container.docker_id %>
 <% end %>
+
+<div class="row">
+  <div class="col-9 px-0 pt-2">
+    <div class="alert alert-primary mb-2" role="alert">
+      Use <code>Ctrl + Enter</code> to run tests.
+    </div>
+  </div>
+  <div class="col-3 p-2">
+    <div class="btn-group" style="width: 100%;">
+      <input onclick="runTests();" type="button" value="Run" class="btn btn-lg btn-primary"/>
+      <button type="submit" form="exercise-form" class="btn btn-lg btn-success">Save</button>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col p-0">
+    <div id="test_results"></div>
+  </div>
+</div>
