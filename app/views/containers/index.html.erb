@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive" style="font-size: 0.9rem">
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
@@ -27,7 +27,7 @@
       <% @containers.each do |container| %>
         <%= content_tag :tr, id: dom_id(container), class: dom_class(container) do %>
           <td><%= link_to container.name, container %></td>
-          <td><%= link_to(container.exercise.name, container.exercise) if container.exercise %></td>
+          <td style="white-space: nowrap;"><%= link_to(container.exercise.name, container.exercise) if container.exercise %></td>
           <td><%= container.user.name %></td>
           <td><%= container.docker_id %></td>
           <td><%= container.image %></td>
