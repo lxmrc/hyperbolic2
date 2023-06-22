@@ -2,6 +2,10 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   resources :containers do
+    collection do
+      post :destroy_all
+    end
+
     member do
       post :stop
       post :start
@@ -9,7 +13,11 @@ Rails.application.routes.draw do
   end
 
   resources :exercises do
-    resources :iterations
+    resources :iterations do
+      member do
+        post :run
+      end
+    end
   end
 
   get '/privacy', to: 'home#privacy'

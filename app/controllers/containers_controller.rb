@@ -38,6 +38,11 @@ class ContainersController < ApplicationController
     redirect_to containers_url, notice: "Container was successfully destroyed.", status: :see_other
   end
 
+  def destroy_all
+    Container.all.destroy_all
+    redirect_to containers_url, notice: "Containers were successfully destroyed.", status: :see_other
+  end
+
   def start
     @container.start
     redirect_to containers_path
