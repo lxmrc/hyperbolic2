@@ -1,10 +1,10 @@
 function runTests() {
   let exerciseId = window.location.pathname.match(/\/exercises\/([^/]+)/)[1];
-  let containerId = document.getElementById("container_id").value;
+  let containerToken = document.getElementById("container_token").value;
   let code = document.getElementById("iteration_code").value;
 
   let formData = new URLSearchParams();
-  formData.append("container_id", containerId);
+  formData.append("token", containerToken);
   formData.append("code", code);
 
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');

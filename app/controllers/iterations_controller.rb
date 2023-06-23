@@ -2,7 +2,6 @@ class IterationsController < ApplicationController
   before_action :authenticate_user!, only: %[new run create]
   before_action :set_exercise
   before_action :set_iteration, only: %i[show edit update destroy]
-  before_action :set_container, only: :run
 
   def show
   end
@@ -15,6 +14,7 @@ class IterationsController < ApplicationController
   end
 
   def run
+    @container = Container.find_by(token: params[:token])
     @container.store_file("/hyperbolic/exercise.rb", params[:code])
     render json: @container.run_tests
   end
@@ -53,10 +53,6 @@ class IterationsController < ApplicationController
 
   def set_exercise
     @exercise = Exercise.friendly.find(params[:exercise_id])
-  end
-
-  def set_container
-    @container = Container.find_by(docker_id: params[:container_id])
   end
 
   def iteration_params
