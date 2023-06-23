@@ -57,7 +57,7 @@ class ContainersController < ApplicationController
   private
 
   def set_container
-    @container = Container.find(params[:id])
+    @container = Container.friendly.find(params[:id])
   end
 
   def container_params

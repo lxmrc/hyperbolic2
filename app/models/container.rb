@@ -1,4 +1,7 @@
 class Container < ApplicationRecord
+  extend FriendlyId
+  friendly_id :token, use: :slugged
+
   belongs_to :user
   belongs_to :exercise, optional: true
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_23_045534) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_23_050019) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,7 +60,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_045534) do
     t.bigint "exercise_id"
     t.bigint "user_id", null: false
     t.string "token", null: false
+    t.string "slug"
     t.index ["exercise_id"], name: "index_containers_on_exercise_id"
+    t.index ["slug"], name: "index_containers_on_slug", unique: true
     t.index ["user_id"], name: "index_containers_on_user_id"
   end
 
