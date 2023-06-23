@@ -17,6 +17,7 @@
         <th>Name</th>
         <th>Exercise</th>
         <th>User</th>
+        <th>Token</th>
         <th>Docker ID</th>
         <th>Image</th>
         <th>Status</th>
@@ -29,6 +30,7 @@
           <td><%= link_to container.name, container %></td>
           <td style="white-space: nowrap;"><%= link_to(container.exercise.name, container.exercise) if container.exercise %></td>
           <td><%= container.user.name %></td>
+          <td><%= container.token %></td>
           <td><%= container.docker_id %></td>
           <td><%= container.image %></td>
           <td><%= container.status %></td>

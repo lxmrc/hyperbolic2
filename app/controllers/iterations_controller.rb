@@ -3,12 +3,14 @@ class IterationsController < ApplicationController
   before_action :set_exercise
   before_action :set_iteration, only: %i[show edit update destroy]
   before_action :set_container, only: :run
-  before_action :prepare_container, only: :new
 
   def show
   end
 
   def new
+    @container = DockerApi.create(exercise: @exercise, user: current_user)
+    @container.store_file("/hyperbolic/test.rb", @exercise.tests)
+    @container.start
     @iteration = current_user.iterations.build(exercise: @exercise)
   end
 
@@ -55,12 +57,6 @@ class IterationsController < ApplicationController
 
   def set_container
     @container = Container.find_by(docker_id: params[:container_id])
-  end
-
-  def prepare_container
-    @container = DockerApi.create(exercise: @exercise, user: current_user)
-    @container.store_file("/hyperbolic/test.rb", @exercise.tests)
-    @container.start
   end
 
   def iteration_params
