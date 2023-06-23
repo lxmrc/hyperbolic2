@@ -1,5 +1,5 @@
 class IterationsController < ApplicationController
-  skip_before_action :verify_authenticity_token, raise: false
+  before_action :authenticate_user!, only: %[new run create]
   before_action :set_exercise
   before_action :set_iteration, only: %i[show edit update destroy]
   before_action :set_container, only: :run
