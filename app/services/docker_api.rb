@@ -8,7 +8,7 @@ module DockerApi
                        user: user,
                        image: image,
                        docker_id: container.id,
-                       token: SecureRandom.uuid)
+                       token: SecureRandom.hex(5))
     end
   end
 end
