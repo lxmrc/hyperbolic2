@@ -7,10 +7,13 @@ function runTests() {
   formData.append("container_id", containerId);
   formData.append("code", code);
 
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
   fetch("/exercises/" + exerciseId + "/iterations/run", {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded",
+      "X-CSRF-Token": csrfToken
     },
     body: formData.toString()
   })
