@@ -17,8 +17,19 @@ function runTests() {
     },
     body: formData.toString()
   })
-  .then(response => {
-    console.log(response);
+  .then(response => response.json())
+  .then(results => {
+    console.log(results);
+    let resultsTable = document.getElementById("test_results");
+
+    resultsTable.innerHTML = '';
+
+    results.forEach(item => {
+      const li = document.createElement('li');
+      li.className = `list-group-item ${item.passed ? 'list-group-item-success' : 'list-group-item-danger'}`;
+      li.textContent = item.name;
+      resultsTable.appendChild(li);
+    });
   })
   .catch(err => {
     console.error(err);
