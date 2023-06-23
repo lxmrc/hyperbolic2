@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<div class="table-responsive" style="font-size: 0.9rem">
+<div class="table-responsive" style="font-size: 0.8rem">
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
@@ -30,7 +30,7 @@
           <td><%= link_to container.name, container %></td>
           <td style="white-space: nowrap;"><%= link_to(container.exercise.name, container.exercise) if container.exercise %></td>
           <td><%= container.user.name %></td>
-          <td><%= container.token %></td>
+          <td style="white-space: nowrap;"><%= container.token %></td>
           <td><%= container.docker_id %></td>
           <td><%= container.image %></td>
           <td><%= container.status %></td>
