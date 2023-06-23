@@ -13,7 +13,7 @@ class Container < ApplicationRecord
            :store_file, to: :container
 
   def run_tests
-    CGI.escape(@container.exec(["ruby", "/hyperbolic/test.rb", "--verbose"])[0][0].to_s)
+    @container.exec(["ruby", "/hyperbolic/test.rb", "--verbose"])[0][0].to_s
   end
 
   def container

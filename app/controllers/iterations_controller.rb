@@ -14,7 +14,7 @@ class IterationsController < ApplicationController
 
   def run
     @container.store_file("/hyperbolic/exercise.rb", params[:code])
-    render plain: @container.run_tests
+    render json: @container.run_tests
   end
 
   def edit
