@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.feature "Editing exercises", type: :feature do
   let!(:exercise) { FactoryBot.create(:exercise) }
@@ -29,6 +29,9 @@ RSpec.feature "Editing exercises", type: :feature do
     expect(page).to have_field("Description")
     expect(page).to have_field("Tests")
 
+    expect(page).to have_button("Save")
+    expect(page).to have_link("Delete")
+
     fill_in "Name", with: "Updated exercise"
     fill_in "Description", with: "Do the Bartman."
     fill_in "Tests", with: "# Tests go here"
@@ -49,5 +52,20 @@ RSpec.feature "Editing exercises", type: :feature do
 
     expect(page).to have_text "Updated exercise"
     expect(page).to have_text "Do the Bartman."
+  end
+
+  scenario "Admins can delete exercises", js: true do
+    login_as(admin)
+
+    visit edit_exercise_path(exercise)
+
+    accept_confirm do
+      click_on "Delete"
+    end
+
+    expect(page).to have_text "Exercise was successfully destroyed."
+
+    expect(page).to_not have_text exercise.name
+    expect(page).to_not have_text exercise.description.truncate_words(30, omission: "...")
   end
 end

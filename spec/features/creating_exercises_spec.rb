@@ -30,6 +30,9 @@ RSpec.feature "Creating exercises", type: :feature do
     expect(page).to have_field("Description")
     expect(page).to have_field("Tests")
 
+    expect(page).to have_button("Save")
+    expect(page).to have_link("Cancel")
+
     fill_in "Name", with: "New exercise"
     fill_in "Description", with: "Do the Bartman."
     fill_in "Tests", with: "# Tests go here"
