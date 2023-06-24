@@ -1,5 +1,5 @@
 class ContainersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_admin!
   before_action :set_container, only: %i[start stop show edit update destroy]
 
   def index
@@ -62,5 +62,11 @@ class ContainersController < ApplicationController
 
   def container_params
     params.require(:container).permit(:docker_id, :name, :image)
+  end
+
+  def authenticate_admin!
+    unless current_user&.admin?
+      redirect_to root_path
+    end
   end
 end
