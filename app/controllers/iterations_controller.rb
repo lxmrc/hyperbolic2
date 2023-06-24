@@ -1,5 +1,5 @@
 class IterationsController < ApplicationController
-  before_action :authenticate_user!, only: %[new run create]
+  before_action :authenticate_user!, only: %i[new run create]
   before_action :set_exercise
   before_action :set_iteration, only: %i[show edit update destroy]
 
