@@ -63,10 +63,4 @@ class ContainersController < ApplicationController
   def container_params
     params.require(:container).permit(:docker_id, :name, :image)
   end
-
-  def authenticate_admin!
-    unless current_user&.admin?
-      redirect_to root_path
-    end
-  end
 end

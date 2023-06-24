@@ -12,4 +12,11 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
     devise_parameter_sanitizer.permit(:account_update, keys: %i[username avatar])
   end
+
+  def authenticate_admin!
+    return if current_user&.admin?
+
+    flash[:alert] = "You don't have permission to do that."
+    redirect_to root_path
+  end
 end

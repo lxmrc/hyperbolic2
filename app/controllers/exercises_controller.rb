@@ -1,5 +1,6 @@
 class ExercisesController < ApplicationController
-  before_action :set_exercise, only: %i[ show edit update destroy ]
+  before_action :authenticate_admin!, only: %i[new edit create update destroy]
+  before_action :set_exercise, only: %i[show edit update destroy]
 
   def index
     @exercises = Exercise.all
@@ -13,8 +14,7 @@ class ExercisesController < ApplicationController
     @exercise = Exercise.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @exercise = Exercise.new(exercise_params)
