@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :exercise do
-    name { "Exercise 1" }
-    description { "Invert a purple binary tree." }
+    name { "Hello, world!" }
+    description { "Hello, world!" }
     tests { "# Tests go here" }
   end
 end

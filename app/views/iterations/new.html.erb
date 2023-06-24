@@ -1,3 +1,8 @@
+<%= link_to exercises_path, class: 'btn btn-link p-0' do %>
+    Back to exercises
+<% end %>
+<hr/>
+
 <h1><%= @exercise.name %></h1>
 
 <%= render 'form', exercise: @exercise, iteration: @iteration %>

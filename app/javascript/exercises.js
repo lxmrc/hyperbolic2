@@ -20,7 +20,7 @@ function runTests() {
   .then(response => response.json())
   .then(results => {
     console.log(results);
-    let resultsTable = document.getElementById("test_results");
+    let resultsTable = document.getElementById("test-results");
 
     resultsTable.innerHTML = '';
 
