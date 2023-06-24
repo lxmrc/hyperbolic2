@@ -29,7 +29,7 @@
         <%= content_tag :tr, id: dom_id(container), class: dom_class(container) do %>
           <td><%= link_to container.name, container %></td>
           <td style="white-space: nowrap;"><%= link_to(container.exercise.name, container.exercise) if container.exercise %></td>
-          <td><%= container.user.name %></td>
+          <td><%= container.user.username %></td>
           <td style="white-space: nowrap;"><%= container.token %></td>
           <td><%= container.docker_id %></td>
           <td><%= container.image %></td>
