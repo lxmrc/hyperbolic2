@@ -5,10 +5,10 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   has_person_name
-  has_noticed_notifications
 
-  has_many :notifications, as: :recipient, dependent: :destroy
-  has_many :services
+  # Things from the Jumpstart Rails template which I don't need right now
+  # has_noticed_notifications
+  # has_many :notifications, as: :recipient, dependent: :destroy
 
   has_many :iterations
 end
