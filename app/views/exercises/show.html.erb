@@ -3,12 +3,14 @@
 <% end %>
 <hr/>
 
-<%= link_to edit_exercise_path(@exercise), class: 'btn btn-primary float-end' do %>
-  Edit
-<% end %>
+<% if user_signed_in? %> 
+  <%= link_to edit_exercise_path(@exercise), class: 'btn btn-primary float-end' do %>
+    Edit
+  <% end %>
 
-<%= link_to new_exercise_iteration_path(@exercise), class: 'btn btn-success float-end mx-1' do %>
-  Attempt
+  <%= link_to new_exercise_iteration_path(@exercise), class: 'btn btn-success float-end mx-1' do %>
+    Attempt
+  <% end %>
 <% end %>
 
 <h1><%= @exercise.name %></h1>

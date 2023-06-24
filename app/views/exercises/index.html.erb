@@ -3,12 +3,14 @@
     <h1>Exercises</h1>
   </div>
 
+<% if user_signed_in? && current_user.admin? %> 
   <div class="col-sm-6 text-end">
-  <%= link_to new_exercise_path, class: 'btn btn-primary' do %>
-    <i class="fas fa-plus"></i> Create Exercise
-  <% end %>
+      <%= link_to new_exercise_path, class: 'btn btn-primary' do %>
+        <i class="fas fa-plus"></i> Create Exercise
+      <% end %>
+    </div>
   </div>
-</div>
+<% end %>
 
 <% @exercises.each do |exercise| %>
   <%= link_to exercise, style: "text-decoration: none;" do %>

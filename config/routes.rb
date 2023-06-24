@@ -1,13 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  unauthenticated do
-    root to: 'home#index'
-  end
-
-  authenticate :user do
-    root to: 'exercises#index', as: :authenticated_root
-  end
+  root to: 'exercises#index'
 
   resources :exercises do
     resources :iterations do
