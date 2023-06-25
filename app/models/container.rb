@@ -1,11 +1,11 @@
 class Container < ApplicationRecord
-  extend FriendlyId
-  friendly_id :token, use: :slugged
-
   belongs_to :user
   belongs_to :exercise, optional: true
 
   validates_presence_of :docker_id
+
+  extend FriendlyId
+  friendly_id :token, use: :slugged
 
   after_create :update_name
   before_destroy :remove_container
@@ -15,8 +15,8 @@ class Container < ApplicationRecord
            :info,
            :store_file, to: :container
 
-  def run_tests
-    @container.exec(["ruby", "/hyperbolic/test.rb", "--verbose"])[0][0].to_s
+  def run_exercise
+    @container.exec(%w[ruby /hyperbolic/test.rb --verbose])[0][0]
   end
 
   def container
