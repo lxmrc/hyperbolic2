@@ -38,11 +38,12 @@ class Container < ApplicationRecord
 
   def run_exercise(code)
     store_file("/hyperbolic/exercise.rb", code)
+
     output = exec(%w[ruby /hyperbolic/test.rb --verbose])
-
     results, errors = output
+    return { "errors" => errors } if errors.any?
 
-    JSON.parse(results.first) unless errors.any?
+    { "results" => JSON.parse(results.first) }
   end
 
   def container

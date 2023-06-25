@@ -47,7 +47,7 @@ RSpec.describe Container, type: :model do
           RUBY
         end
 
-        let(:test_results) do
+        let(:results) do
           [
             { "name" => "test_returns_number_as_string_when_not_divisible_by_3_or_5", "passed" => true },
             { "name" => "test_returns_fizz_when_divisible_by_3", "passed" => true },
@@ -57,7 +57,7 @@ RSpec.describe Container, type: :model do
         end
 
         it "returns a hash representation of the test results" do
-          expect(container.run_exercise(code)).to match_array(test_results)
+          expect(container.run_exercise(code)["results"]).to match_array(results)
         end
       end
 
@@ -72,7 +72,7 @@ RSpec.describe Container, type: :model do
           RUBY
         end
 
-        let(:test_results) do
+        let(:results) do
           [
             { "name" => "test_returns_number_as_string_when_not_divisible_by_3_or_5", "passed" => true },
             { "name" => "test_returns_fizz_when_divisible_by_3", "passed" => true },
@@ -86,17 +86,58 @@ RSpec.describe Container, type: :model do
         end
 
         it "returns a hash representation of the test results" do
-          expect(container.run_exercise(code)).to match_array(test_results)
+          expect(container.run_exercise(code)["results"]).to match_array(results)
         end
       end
 
-      xcontext "all tests fail" do
+      context "all tests fail" do
+        let(:code) do
+          <<~RUBY
+            def fizzbuzz(n)
+            end
+          RUBY
+        end
+
+        let(:results) do
+          [
+            {
+              "name" => "test_returns_number_as_string_when_not_divisible_by_3_or_5",
+              "passed" => false,
+              "failures" => ["Expected: \"1\"\n  Actual: nil"]
+            },
+            {
+              "name" => "test_returns_fizz_when_divisible_by_3",
+              "passed" => false,
+              "failures" => ["Expected: \"Fizz\"\n  Actual: nil"]
+            },
+            {
+              "name" => "test_returns_buzz_when_divisible_by_5",
+              "passed" => false,
+              "failures" => ["Expected: \"Buzz\"\n  Actual: nil"]
+            },
+            {
+              "name" => "test_returns_fizzbuzz_when_divisible_by_3_and_5",
+              "passed" => false,
+              "failures" => ["Expected: \"FizzBuzz\"\n  Actual: nil"]
+            }
+          ]
+        end
+
+        it "returns a hash representation of the test results" do
+          expect(container.run_exercise(code)["results"]).to match_array(results)
+        end
       end
 
-      xcontext "exercise file not found" do
-      end
+      context "exception raised" do
+        let(:code) do
+          <<~RUBY
+            raise StandardError
+          RUBY
+        end
 
-      xcontext "running tests raises exception" do
+        it "raises an error" do
+          expect(container.run_exercise(code)).to include("errors" => be_an(Array))
+        end
       end
     end
   end
