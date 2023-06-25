@@ -14,7 +14,7 @@ class IterationsController < ApplicationController
 
   def run
     @container = Container.find_by(token: params[:token])
-    render json: @container.run_exercise(params[:code])
+    render json: @container.run_exercise(params[:code]).to_h.to_json
   end
 
   def edit

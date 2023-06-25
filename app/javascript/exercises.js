@@ -18,18 +18,37 @@ function runTests() {
     body: formData.toString()
   })
   .then(response => response.json())
-  .then(results => {
-    console.log(results);
-    let resultsTable = document.getElementById("test-results");
+  .then(response => {
+    console.log(response);
 
+    let resultsTable = document.getElementById("test-results");
     resultsTable.innerHTML = '';
 
-    results.forEach(item => {
+    if(response["success"]) {
+      response["results"].forEach(item => {
+        const li = document.createElement('li');
+        li.className = `list-group-item ${item.passed ? 'list-group-item-success' : 'list-group-item-danger'}`;
+        li.textContent = item.name;
+        resultsTable.appendChild(li);
+      });
+    } else {
       const li = document.createElement('li');
-      li.className = `list-group-item ${item.passed ? 'list-group-item-success' : 'list-group-item-danger'}`;
-      li.textContent = item.name;
+      li.className = `list-group-item list-group-item-secondary`;
+      li.textContent = `Something went wrong:`
+
+      const pre = document.createElement("pre");
+      pre.classList.add("p-2")
+      pre.classList.add("border")
+
+      const code = document.createElement("code");
+      code.textContent = response["errors"].join("\n");
+
+      pre.appendChild(code);
+      li.appendChild(pre);
+
       resultsTable.appendChild(li);
-    });
+    }
+
   })
   .catch(err => {
     console.error(err);
