@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Container, type: :model do
   let(:user) { FactoryBot.create(:user) }
-  let(:container) { DockerApi.create(user: user) }
+  let(:container) { DockerApi.create(user: user, exercise: exercise) }
 
   describe "#run_exercise" do
     let(:tests) { File.read("spec/fixtures/exercises/fizzbuzz_test.rb") }
@@ -14,9 +14,16 @@ RSpec.describe Container, type: :model do
     xcontext "container not started" do
     end
 
-    context "container started" do
+    xcontext "container started but not prepared" do
       before do
         container.start
+      end
+    end
+
+    context "container started and prepared" do
+      before do
+        container.start
+        container.prepare!
       end
 
       it "executes the test command on the container" do
@@ -28,7 +35,7 @@ RSpec.describe Container, type: :model do
         container.run_exercise("# Code goes here")
       end
 
-      xcontext "all tests pass" do
+      context "all tests pass" do
         let(:code) do
           <<~RUBY
             def fizzbuzz(n)
@@ -50,7 +57,7 @@ RSpec.describe Container, type: :model do
         end
 
         it "returns a hash representation of the test results" do
-          expect(container.run_exercise).to eq(test_results)
+          expect(container.run_exercise(code)).to match_array(test_results)
         end
       end
 
@@ -71,7 +78,6 @@ RSpec.describe Container, type: :model do
   describe "#prepare!" do
     context "container has exercise" do
       let(:exercise) { FactoryBot.create(:exercise) }
-      let(:container) { DockerApi.create(user: user, exercise: exercise) }
 
       let(:test_preamble) do
         <<~RUBY
@@ -100,6 +106,8 @@ RSpec.describe Container, type: :model do
     end
 
     context "container has no exercise" do
+      let(:exercise) { nil }
+
       it "does not call #store_file with the correct arguments" do
         expect(container)
           .to_not receive(:store_file)
