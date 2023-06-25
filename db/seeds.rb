@@ -30,13 +30,6 @@ greed_description = <<~TEXT
 TEXT
 
 greed_tests = <<~RUBY
-  require 'minitest/autorun'
-  require 'minitest/reporters'
-  require 'minitest/reporters/json_reporter'
-  Minitest::Reporters.use! Minitest::Reporters::JsonReporter.new
-
-  require_relative "exercise"
-
   class GreedTest < Minitest::Test
     def test_score_of_an_empty_list_is_zero
       assert_equal 0, Greed.score([])
