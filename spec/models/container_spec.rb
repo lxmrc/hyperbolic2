@@ -61,7 +61,33 @@ RSpec.describe Container, type: :model do
         end
       end
 
-      xcontext "some tests pass" do
+      context "some tests pass" do
+        let(:code) do
+          <<~RUBY
+            def fizzbuzz(n)
+              return "Buzz" if n % 5 == 0
+              return "Fizz" if n % 3 == 0
+              n.to_s
+            end
+          RUBY
+        end
+
+        let(:test_results) do
+          [
+            { "name" => "test_returns_number_as_string_when_not_divisible_by_3_or_5", "passed" => true },
+            { "name" => "test_returns_fizz_when_divisible_by_3", "passed" => true },
+            { "name" => "test_returns_buzz_when_divisible_by_5", "passed" => true },
+            {
+              "name" => "test_returns_fizzbuzz_when_divisible_by_3_and_5",
+              "passed" => false,
+              "failures" => ["Expected: \"FizzBuzz\"\n  Actual: \"Buzz\""]
+            }
+          ]
+        end
+
+        it "returns a hash representation of the test results" do
+          expect(container.run_exercise(code)).to match_array(test_results)
+        end
       end
 
       xcontext "all tests fail" do
