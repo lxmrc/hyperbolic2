@@ -49,11 +49,7 @@ class Container < ApplicationRecord
       success = false
     end
 
-    {
-      success: success,
-      results: results,
-      errors: errors
-    }
+    OpenStruct.new({ success: success, results: results, errors: errors })
   end
 
   def container

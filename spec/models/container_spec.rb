@@ -68,8 +68,12 @@ RSpec.describe Container, type: :model do
           ]
         end
 
+        it "success is true" do
+          expect(container.run_exercise(code).success).to eq(true)
+        end
+
         it "returns a hash representation of the test results" do
-          expect(container.run_exercise(code)[:results]).to match_array(results)
+          expect(container.run_exercise(code).results).to match_array(results)
         end
       end
 
@@ -106,8 +110,12 @@ RSpec.describe Container, type: :model do
           ]
         end
 
+        it "success is true" do
+          expect(container.run_exercise(code).success).to eq(true)
+        end
+
         it "returns a hash representation of the test results" do
-          expect(container.run_exercise(code)[:results]).to match_array(results)
+          expect(container.run_exercise(code).results).to match_array(results)
         end
       end
 
@@ -144,8 +152,12 @@ RSpec.describe Container, type: :model do
           ]
         end
 
+        it "success is true" do
+          expect(container.run_exercise(code).success).to eq(true)
+        end
+
         it "returns a hash representation of the test results" do
-          expect(container.run_exercise(code)[:results]).to match_array(results)
+          expect(container.run_exercise(code).results).to match_array(results)
         end
       end
 
@@ -156,8 +168,8 @@ RSpec.describe Container, type: :model do
           RUBY
         end
 
-        it "raises an error" do
-          expect(container.run_exercise(code)[:success]).to eq(false)
+        it "success is false" do
+          expect(container.run_exercise(code).success).to eq(false)
         end
       end
     end
