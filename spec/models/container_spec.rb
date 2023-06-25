@@ -28,10 +28,23 @@ RSpec.describe Container, type: :model do
       let(:exercise) { FactoryBot.create(:exercise) }
       let(:container) { DockerApi.create(user: user, exercise: exercise) }
 
+      let(:test_preamble) do
+        <<~RUBY
+          require 'minitest/autorun'
+          require 'minitest/reporters'
+          require 'minitest/reporters/json_reporter'
+          Minitest::Reporters.use! Minitest::Reporters::JsonReporter.new
+
+          require_relative "exercise"
+        RUBY
+      end
+
+      let(:tests_with_preamble) { test_preamble + "\n" + exercise.tests }
+
       it "calls #store_file with the correct arguments" do
         expect(container.container)
           .to receive(:store_file)
-          .with("/hyperbolic/test.rb", exercise.tests)
+          .with("/hyperbolic/test.rb", tests_with_preamble)
 
         container.prepare!
       end

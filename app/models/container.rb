@@ -15,10 +15,21 @@ class Container < ApplicationRecord
            :info,
            :store_file, to: :container
 
+  MINITEST_PREAMBLE = <<~RUBY
+    require 'minitest/autorun'
+    require 'minitest/reporters'
+    require 'minitest/reporters/json_reporter'
+    Minitest::Reporters.use! Minitest::Reporters::JsonReporter.new
+
+    require_relative "exercise"
+  RUBY
+
   def prepare!
     return false unless exercise.present?
 
-    @container.store_file("/hyperbolic/test.rb", exercise.tests)
+    tests = MINITEST_PREAMBLE + "\n" + exercise.tests
+
+    @container.store_file("/hyperbolic/test.rb", tests)
     @container.start
     true
   end
@@ -32,17 +43,17 @@ class Container < ApplicationRecord
   end
 
   def status
-    info.dig('State', 'Status')
+    info.dig("State", "Status")
   end
 
   def running?
-    info.dig('State', 'Running')
+    info.dig("State", "Running")
   end
 
   private
 
   def update_name
-    update(name: info['Name'][1..-1])
+    update(name: info["Name"][1..-1])
   end
 
   def remove_container
