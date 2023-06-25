@@ -49,15 +49,27 @@ RSpec.describe Container, type: :model do
 
         let(:results) do
           [
-            { "name" => "test_returns_number_as_string_when_not_divisible_by_3_or_5", "passed" => true },
-            { "name" => "test_returns_fizz_when_divisible_by_3", "passed" => true },
-            { "name" => "test_returns_buzz_when_divisible_by_5", "passed" => true },
-            { "name" => "test_returns_fizzbuzz_when_divisible_by_3_and_5", "passed" => true }
+            {
+              name: "test_returns_number_as_string_when_not_divisible_by_3_or_5",
+              passed: true
+            },
+            {
+              name: "test_returns_fizz_when_divisible_by_3",
+              passed: true
+            },
+            {
+              name: "test_returns_buzz_when_divisible_by_5",
+              passed: true
+            },
+            {
+              name: "test_returns_fizzbuzz_when_divisible_by_3_and_5",
+              passed: true
+            }
           ]
         end
 
         it "returns a hash representation of the test results" do
-          expect(container.run_exercise(code)["results"]).to match_array(results)
+          expect(container.run_exercise(code)[:results]).to match_array(results)
         end
       end
 
@@ -74,19 +86,28 @@ RSpec.describe Container, type: :model do
 
         let(:results) do
           [
-            { "name" => "test_returns_number_as_string_when_not_divisible_by_3_or_5", "passed" => true },
-            { "name" => "test_returns_fizz_when_divisible_by_3", "passed" => true },
-            { "name" => "test_returns_buzz_when_divisible_by_5", "passed" => true },
             {
-              "name" => "test_returns_fizzbuzz_when_divisible_by_3_and_5",
-              "passed" => false,
-              "failures" => ["Expected: \"FizzBuzz\"\n  Actual: \"Buzz\""]
+              name: "test_returns_number_as_string_when_not_divisible_by_3_or_5",
+              passed: true
+            },
+            {
+              name: "test_returns_fizz_when_divisible_by_3",
+              passed: true
+            },
+            {
+              name: "test_returns_buzz_when_divisible_by_5",
+              passed: true
+            },
+            {
+              name: "test_returns_fizzbuzz_when_divisible_by_3_and_5",
+              passed: false,
+              failures: ["Expected: \"FizzBuzz\"\n  Actual: \"Buzz\""]
             }
           ]
         end
 
         it "returns a hash representation of the test results" do
-          expect(container.run_exercise(code)["results"]).to match_array(results)
+          expect(container.run_exercise(code)[:results]).to match_array(results)
         end
       end
 
@@ -101,30 +122,30 @@ RSpec.describe Container, type: :model do
         let(:results) do
           [
             {
-              "name" => "test_returns_number_as_string_when_not_divisible_by_3_or_5",
-              "passed" => false,
-              "failures" => ["Expected: \"1\"\n  Actual: nil"]
+              name: "test_returns_number_as_string_when_not_divisible_by_3_or_5",
+              passed: false,
+              failures: ["Expected: \"1\"\n  Actual: nil"]
             },
             {
-              "name" => "test_returns_fizz_when_divisible_by_3",
-              "passed" => false,
-              "failures" => ["Expected: \"Fizz\"\n  Actual: nil"]
+              name: "test_returns_fizz_when_divisible_by_3",
+              passed: false,
+              failures: ["Expected: \"Fizz\"\n  Actual: nil"]
             },
             {
-              "name" => "test_returns_buzz_when_divisible_by_5",
-              "passed" => false,
-              "failures" => ["Expected: \"Buzz\"\n  Actual: nil"]
+              name: "test_returns_buzz_when_divisible_by_5",
+              passed: false,
+              failures: ["Expected: \"Buzz\"\n  Actual: nil"]
             },
             {
-              "name" => "test_returns_fizzbuzz_when_divisible_by_3_and_5",
-              "passed" => false,
-              "failures" => ["Expected: \"FizzBuzz\"\n  Actual: nil"]
+              name: "test_returns_fizzbuzz_when_divisible_by_3_and_5",
+              passed: false,
+              failures: ["Expected: \"FizzBuzz\"\n  Actual: nil"]
             }
           ]
         end
 
         it "returns a hash representation of the test results" do
-          expect(container.run_exercise(code)["results"]).to match_array(results)
+          expect(container.run_exercise(code)[:results]).to match_array(results)
         end
       end
 
@@ -136,7 +157,7 @@ RSpec.describe Container, type: :model do
         end
 
         it "raises an error" do
-          expect(container.run_exercise(code)).to include("errors" => be_an(Array))
+          expect(container.run_exercise(code)[:success]).to eq(false)
         end
       end
     end

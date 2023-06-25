@@ -41,9 +41,19 @@ class Container < ApplicationRecord
 
     output = exec(%w[ruby /hyperbolic/test.rb --verbose])
     results, errors = output
-    return { "errors" => errors } if errors.any?
 
-    { "results" => JSON.parse(results.first) }
+    if results.any?
+      results = JSON.parse(results.first).map(&:symbolize_keys)
+      success = true
+    else
+      success = false
+    end
+
+    {
+      success: success,
+      results: results,
+      errors: errors
+    }
   end
 
   def container
