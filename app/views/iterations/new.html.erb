@@ -1,5 +1,5 @@
-<%= link_to exercises_path, class: 'btn btn-link p-0' do %>
-    Back to exercises
+<%= link_to @exercise, class: 'btn btn-link p-0' do %>
+  Back to <%= @exercise.name %>
 <% end %>
 <hr/>
 

@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.feature "Attempting exercises", type: :feature do
-  let!(:exercise1) { FactoryBot.create(:exercise, tests: tests) }
+  let!(:exercise) { FactoryBot.create(:exercise, tests: tests) }
 
   let(:tests) do
     <<~RUBY
@@ -45,7 +45,7 @@ RSpec.feature "Attempting exercises", type: :feature do
   end
 
   scenario "Redirect if not logged in" do
-    visit "/exercises/#{exercise1.name.parameterize}/iterations/new"
+    visit "/exercises/#{exercise.name.parameterize}/iterations/new"
 
     expect(page).to have_current_path("/users/sign_in")
   end
@@ -53,9 +53,9 @@ RSpec.feature "Attempting exercises", type: :feature do
   scenario "Show the attempt page and create a container" do
     login_as(user)
 
-    expect { visit "/exercises/#{exercise1.name.parameterize}/iterations/new" }.to change { Container.count }.by(1)
+    expect { visit "/exercises/#{exercise.name.parameterize}/iterations/new" }.to change { Container.count }.by(1)
 
-    expect(page).to have_link("Back to exercises")
+    expect(page).to have_link("Back to #{exercise.name}")
     expect(page).to have_css("textarea#iteration_code")
 
     expect(page).to have_text("class HelloWorldTest < Minitest::Test")
@@ -70,7 +70,7 @@ RSpec.feature "Attempting exercises", type: :feature do
   scenario "Attempt the exercise unsuccessfully", js: true do
     login_as(user)
 
-    visit "/exercises/#{exercise1.name.parameterize}/iterations/new"
+    visit "/exercises/#{exercise.name.parameterize}/iterations/new"
 
     fill_in "iteration_code", with: failed_attempt
     click_on "Run"
@@ -82,7 +82,7 @@ RSpec.feature "Attempting exercises", type: :feature do
   scenario "Attempt the exercise successfully", js: true do
     login_as(user)
 
-    visit "/exercises/#{exercise1.name.parameterize}/iterations/new"
+    visit "/exercises/#{exercise.name.parameterize}/iterations/new"
 
     fill_in "iteration_code", with: successful_attempt
     click_on "Run"
