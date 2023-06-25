@@ -35,3 +35,9 @@ function runTests() {
     console.error(err);
   });
 }
+
+window.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.keyCode === 13) {
+      runTests();
+    }
+});
