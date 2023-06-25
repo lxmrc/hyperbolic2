@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe Container, type: :model do
   let(:user) { FactoryBot.create(:user) }
   let(:container) { DockerApi.create(user: user) }
+
   let(:test_results) do
     [{ "name" => "test_it_says_hello_world", "passed" => true }]
   end
@@ -19,6 +20,38 @@ RSpec.describe Container, type: :model do
         .and_call_original
 
       container.run_exercise
+    end
+  end
+
+  describe "#prepare!" do
+    context "container has exercise" do
+      let(:exercise) { FactoryBot.create(:exercise) }
+      let(:container) { DockerApi.create(user: user, exercise: exercise) }
+
+      it "calls #store_file with the correct arguments" do
+        expect(container.container)
+          .to receive(:store_file)
+          .with("/hyperbolic/test.rb", exercise.tests)
+
+        container.prepare!
+      end
+
+      it "returns true" do
+        expect(container.prepare!).to eq(true)
+      end
+    end
+
+    context "container has no exercise" do
+      it "does not call #store_file with the correct arguments" do
+        expect(container.container)
+          .to_not receive(:store_file)
+
+        container.prepare!
+      end
+
+      it "returns false" do
+        expect(container.prepare!).to eq(false)
+      end
     end
   end
 end

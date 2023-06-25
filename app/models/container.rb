@@ -15,6 +15,14 @@ class Container < ApplicationRecord
            :info,
            :store_file, to: :container
 
+  def prepare!
+    return false unless exercise.present?
+
+    @container.store_file("/hyperbolic/test.rb", exercise.tests)
+    @container.start
+    true
+  end
+
   def run_exercise
     @container.exec(%w[ruby /hyperbolic/test.rb --verbose])[0][0]
   end

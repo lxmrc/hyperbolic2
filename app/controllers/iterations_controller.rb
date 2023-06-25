@@ -8,8 +8,7 @@ class IterationsController < ApplicationController
 
   def new
     @container = DockerApi.create(exercise: @exercise, user: current_user)
-    @container.store_file("/hyperbolic/test.rb", @exercise.tests)
-    @container.start
+    @container.prepare!
     @iteration = current_user.iterations.build(exercise: @exercise)
   end
 
