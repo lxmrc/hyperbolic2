@@ -12,8 +12,10 @@ class Container < ApplicationRecord
 
   delegate :start,
            :stop,
-           :info,
-           :store_file, to: :container
+           :store_file,
+           :exec,
+           :delete,
+           :info, to: :container
 
   MINITEST_PREAMBLE = <<~RUBY
     require 'minitest/autorun'
@@ -29,13 +31,14 @@ class Container < ApplicationRecord
 
     tests = MINITEST_PREAMBLE + "\n" + exercise.tests
 
-    @container.store_file("/hyperbolic/test.rb", tests)
-    @container.start
+    store_file("/hyperbolic/test.rb", tests)
+    start
     true
   end
 
-  def run_exercise
-    @container.exec(%w[ruby /hyperbolic/test.rb --verbose])[0][0]
+  def run_exercise(code)
+    store_file("/hyperbolic/exercise.rb", code)
+    exec(%w[ruby /hyperbolic/test.rb --verbose])[0][0]
   end
 
   def container
@@ -57,6 +60,6 @@ class Container < ApplicationRecord
   end
 
   def remove_container
-    container.delete(force: true)
+    delete(force: true)
   end
 end

@@ -4,22 +4,67 @@ RSpec.describe Container, type: :model do
   let(:user) { FactoryBot.create(:user) }
   let(:container) { DockerApi.create(user: user) }
 
-  let(:test_results) do
-    [{ "name" => "test_it_says_hello_world", "passed" => true }]
-  end
-
   describe "#run_exercise" do
-    before do
-      container.start
+    let(:tests) { File.read("spec/fixtures/exercises/fizzbuzz_test.rb") }
+    let(:exercise) { FactoryBot.create(:exercise, name: "FizzBuzz", tests: tests) }
+
+    xcontext "container not found" do
     end
 
-    it "executes the test command on the container" do
-      expect(container.container)
-        .to receive(:exec)
-        .with(%w[ruby /hyperbolic/test.rb --verbose])
-        .and_call_original
+    xcontext "container not started" do
+    end
 
-      container.run_exercise
+    context "container started" do
+      before do
+        container.start
+      end
+
+      it "executes the test command on the container" do
+        expect(container)
+          .to receive(:exec)
+          .with(%w[ruby /hyperbolic/test.rb --verbose])
+          .and_call_original
+
+        container.run_exercise("# Code goes here")
+      end
+
+      xcontext "all tests pass" do
+        let(:code) do
+          <<~RUBY
+            def fizzbuzz(n)
+              return "FizzBuzz" if n % 15 == 0
+              return "Buzz" if n % 5 == 0
+              return "Fizz" if n % 3 == 0
+              n.to_s
+            end
+          RUBY
+        end
+
+        let(:test_results) do
+          [
+            { "name" => "test_returns_number_as_string_when_not_divisible_by_3_or_5", "passed" => true },
+            { "name" => "test_returns_fizz_when_divisible_by_3", "passed" => true },
+            { "name" => "test_returns_buzz_when_divisible_by_5", "passed" => true },
+            { "name" => "test_returns_fizzbuzz_when_divisible_by_3_and_5", "passed" => true }
+          ]
+        end
+
+        it "returns a hash representation of the test results" do
+          expect(container.run_exercise).to eq(test_results)
+        end
+      end
+
+      xcontext "some tests pass" do
+      end
+
+      xcontext "all tests fail" do
+      end
+
+      xcontext "exercise file not found" do
+      end
+
+      xcontext "running tests raises exception" do
+      end
     end
   end
 
@@ -42,7 +87,7 @@ RSpec.describe Container, type: :model do
       let(:tests_with_preamble) { test_preamble + "\n" + exercise.tests }
 
       it "calls #store_file with the correct arguments" do
-        expect(container.container)
+        expect(container)
           .to receive(:store_file)
           .with("/hyperbolic/test.rb", tests_with_preamble)
 
@@ -56,7 +101,7 @@ RSpec.describe Container, type: :model do
 
     context "container has no exercise" do
       it "does not call #store_file with the correct arguments" do
-        expect(container.container)
+        expect(container)
           .to_not receive(:store_file)
 
         container.prepare!
